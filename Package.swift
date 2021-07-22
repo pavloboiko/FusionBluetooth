@@ -41,7 +41,7 @@ let package = Package(
               .target(name: "FusionBluetooth_Common"),
               .product(name: "Android", package: "Android", condition: .when(platforms: [.android])),
               .product(name: "AndroidOS", package: "Android", condition: .when(platforms: [.android])),
-              .product(name: "AndroidLocation", package: "Android", condition: .when(platforms: [.android]))              
+              .product(name: "AndroidBluetooth", package: "Android", condition: .when(platforms: [.android]))              
             ],
             resources: [.copy("Generated/FusionBluetooth_Android.java")]         
         )
