@@ -5,7 +5,10 @@ import CoreBluetooth
 public class BluetoothManager {
     fileprivate class CBCDelegate: NSObject {
         typealias Receiver = (Peripheral?) -> Void
+        typealias StateReceiver = (CentralState) -> Void
         var receiver: Receiver?
+        var stateReceiver: StateReceiver?
+        
         var peripheralArray: [CBPeripheral] = []
     }
   
@@ -16,14 +19,43 @@ public class BluetoothManager {
 	public required init() {
 		self.delegate = CBCDelegate()
         self.centralManager = CBCentralManager(delegate: self.delegate, queue: nil)
-    }
-	
+    }	
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
+	var isScanning = false
+	
+	public func checkState(receiver: @escaping (CentralState) -> Void) {
+		self.delegate.stateReceiver = receiver
+		var state: CentralState = .unknown
+		switch centralManager.state {
+        case .unknown:
+          state = .unknown
+        case .resetting:
+          state = .resetting
+        case .unsupported:
+          state = .unsupported
+        case .unauthorized:
+          state = .unauthorized
+        case .poweredOff:
+          state = .poweredOff
+        case .poweredOn:
+          state = .poweredOn
+
+        @unknown default:
+          state = .unknown
+        }
+        
+        receiver(state)
+	}
+	
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
 		self.delegate.receiver = receiver
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
+	}
+	
+	public func stopDicovering() {
+		centralManager.stopScan()
 	}
 	
 	public func connectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void) {	
@@ -55,23 +87,26 @@ extension BluetoothManager: BluetoothManagerProtocol {
 
 extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-          switch central.state {
-          case .unknown:
-            print("central.state is .unknown")
-          case .resetting:
-            print("central.state is .resetting")
-          case .unsupported:
-            print("central.state is .unsupported")
-          case .unauthorized:
-            print("central.state is .unauthorized")
-          case .poweredOff:
-            print("central.state is .poweredOff")
-          case .poweredOn:
-            print("central.state is .poweredOn")
+		var state: CentralState = .unknown
+		switch centralManager.state {
+        case .unknown:
+          state = .unknown
+        case .resetting:
+          state = .resetting
+        case .unsupported:
+          state = .unsupported
+        case .unauthorized:
+          state = .unauthorized
+        case .poweredOff:
+          state = .poweredOff
+        case .poweredOn:
+          state = .poweredOn
 
-          @unknown default:
-              fatalError()
-          }
+        @unknown default:
+          state = .unknown
+        }
+        
+        stateReceiver?(state)
     }
   
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {

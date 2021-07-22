@@ -1,5 +1,20 @@
 import Foundation
- 
+
+ public enum CentralState : String {
+    case unknown = "Unknown"
+
+    case resetting = "Resetting"
+
+    case unsupported = "Unsupported"
+
+    case unauthorized = "Unauthorized"
+
+    case poweredOff = "Powered Off"
+
+    case poweredOn = "Powered On"
+}
+
+  
 public enum PeripheralState : String {
     case disconnected = "Disconnected"
     case connecting = "Connecting"
@@ -20,7 +35,11 @@ public struct Peripheral: Equatable {
 }
 
 public protocol BluetoothManagerProtocol {
+	var isScanning: Bool { get set }
+	
+	func checkState(receiver: @escaping (CentralState) -> Void)
 	func discoverDevice(receiver: @escaping (Peripheral?) -> Void)
+	func stopDicovering()
 	func connectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void)
 	func disconnectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void)
 	func receiveMessage(message: @escaping (String) -> Void)
