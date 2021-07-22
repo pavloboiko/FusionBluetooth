@@ -28,7 +28,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	
 	public func connectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void) {	
 		self.delegate.receiver = receiver
-		if let peripheral = self.delegate.peripheralArray.first(where: { "($0.identifier)" == uuid }) {
+		if let peripheral = self.delegate.peripheralArray.first(where: { "\($0.identifier)" == uuid }) {
             centralManager.connect(peripheral, options: nil)
         } else {
         	receiver?(nil)
@@ -37,7 +37,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	
 	public func disconnectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void) {
 		self.delegate.receiver = receiver
-		if let peripheral = self.delegate.peripheralArray.first(where: { uuid == "($0.identifier)" }) {
+		if let peripheral = self.delegate.peripheralArray.first(where: { uuid == "\($0.identifier)" }) {
             centralManager.cancelPeripheralConnection(peripheral)
         } else {
         	receiver?(nil)
