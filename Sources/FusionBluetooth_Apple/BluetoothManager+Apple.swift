@@ -6,12 +6,12 @@ public class BluetoothManager {
     fileprivate class CBCDelegate: NSObject {
         typealias Receiver = (Peripheral) -> Void
         var receiver: Receiver?
+        private let peripheralArray: [CBPeripheral] = []
     }
   
 	private let delegate: CBCDelegate
 	private let centralManager: CBCentralManager
-//	private let peripheral: CBPeripheral!
-	private let peripheralArray: [CBPeripheral] = []
+//	private let peripheral: CBPeripheral!	
 	
 	public required init() {
 		self.delegate = CBCDelegate()
@@ -41,25 +41,28 @@ extension BluetoothManager: BluetoothManagerProtocol {
 
 extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
-    switch central.state {
-    case .unknown:
-      print("central.state is .unknown")
-    case .resetting:
-      print("central.state is .resetting")
-    case .unsupported:
-      print("central.state is .unsupported")
-    case .unauthorized:
-      print("central.state is .unauthorized")
-    case .poweredOff:
-      print("central.state is .poweredOff")
-    case .poweredOn:
-      print("central.state is .poweredOn")
-    }
+        switch central.state {
+        case .unknown:
+          print("central.state is .unknown")
+        case .resetting:
+          print("central.state is .resetting")
+        case .unsupported:
+          print("central.state is .unsupported")
+        case .unauthorized:
+          print("central.state is .unauthorized")
+        case .poweredOff:
+          print("central.state is .poweredOff")
+        case .poweredOn:
+          print("central.state is .poweredOn")
+
+        @unknown default:
+            fatalError()
+        }
   }
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
-                      advertisementData: [String : Any], rssi RSSI: NSNumber) {	
-      peripheralArray.append(peripheral)
+                      advertisementData: [String : Any], rssi RSSI: NSNumber) {	                      
+      self.peripheralArray.append(peripheral)
 	  receiver(peripheral)
   }
 
