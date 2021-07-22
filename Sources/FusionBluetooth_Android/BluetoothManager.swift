@@ -9,7 +9,7 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	func discoverDevice(receiver: @escaping (String?) -> Void) {
+	func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
 
 	}
 	
