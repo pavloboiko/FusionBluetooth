@@ -31,7 +31,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 		if let peripheral = self.delegate.peripheralArray.first(where: { "\($0.identifier)" == uuid }) {
             centralManager.connect(peripheral, options: nil)
         } else {
-        	receiver?(nil)
+        	receiver(nil)
         }
 	}
 	
@@ -40,7 +40,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 		if let peripheral = self.delegate.peripheralArray.first(where: { uuid == "\($0.identifier)" }) {
             centralManager.cancelPeripheralConnection(peripheral)
         } else {
-        	receiver?(nil)
+        	receiver(nil)
         }
 	}
 	
