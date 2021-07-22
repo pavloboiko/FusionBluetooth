@@ -91,7 +91,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
 		var state: CentralState = .unknown
-		switch centralManager.state {
+		switch central.state {
         case .unknown:
           state = .unknown
         case .resetting:
