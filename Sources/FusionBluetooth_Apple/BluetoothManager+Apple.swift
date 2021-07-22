@@ -40,35 +40,49 @@ extension BluetoothManager: BluetoothManagerProtocol {
 }
 
 extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
-  func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        switch central.state {
-        case .unknown:
-          print("central.state is .unknown")
-        case .resetting:
-          print("central.state is .resetting")
-        case .unsupported:
-          print("central.state is .unsupported")
-        case .unauthorized:
-          print("central.state is .unauthorized")
-        case .poweredOff:
-          print("central.state is .poweredOff")
-        case .poweredOn:
-          print("central.state is .poweredOn")
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+          switch central.state {
+          case .unknown:
+            print("central.state is .unknown")
+          case .resetting:
+            print("central.state is .resetting")
+          case .unsupported:
+            print("central.state is .unsupported")
+          case .unauthorized:
+            print("central.state is .unauthorized")
+          case .poweredOff:
+            print("central.state is .poweredOff")
+          case .poweredOn:
+            print("central.state is .poweredOn")
 
-        @unknown default:
-            fatalError()
-        }
-  }
+          @unknown default:
+              fatalError()
+          }
+    }
   
-  func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
-                      advertisementData: [String : Any], rssi RSSI: NSNumber) {	                      
-
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+                      
+      var state: PeripheralState = .disconnected
+      switch peripheral.state {
+      case .connected:
+          state = .connected
+      case .connecting:
+          state = .connecting
+      case .disconnected:
+          state = .disconnected
+      case .disconnecting:
+          state = .disconnecting
+      @unknown default:
+          state = .disconnected
+      }
+      
       let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
       if !self.peripheralArray.contains(peripheral) {
           self.peripheralArray.append(peripheral)
-          receiver(peripheral)
+
+          receiver(peripheralData)
       }
-  }
+    }
 
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
   
