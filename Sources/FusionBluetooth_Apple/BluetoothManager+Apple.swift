@@ -24,7 +24,6 @@ public class BluetoothManager {
 	public required init() {
 		self.delegate = CBCDelegate()
         self.centralManager = CBCentralManager(delegate: self.delegate, queue: nil)
-        self.isScanning = false
     }	
 }
 
