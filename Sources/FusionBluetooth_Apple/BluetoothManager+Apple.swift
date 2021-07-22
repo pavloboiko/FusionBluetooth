@@ -14,11 +14,13 @@ public class BluetoothManager {
   
 	private let delegate: CBCDelegate
 	private let centralManager: CBCentralManager
-//	private let peripheral: CBPeripheral!	
+//	private let peripheral: CBPeripheral!
+	open var isScanning: Bool { get }
 	
 	public required init() {
 		self.delegate = CBCDelegate()
         self.centralManager = CBCentralManager(delegate: self.delegate, queue: nil)
+        self.isScanning = false
     }	
 }
 
