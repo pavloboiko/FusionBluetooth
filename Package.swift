@@ -2,9 +2,6 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
-import Foundation
-
-let SCADE_SDK = ProcessInfo.processInfo.environment["SCADE_SDK"] ?? ""
 
 let package = Package(
     name: "FusionBluetooth",
@@ -27,10 +24,6 @@ let package = Package(
               .target(name: "FusionBluetooth_Common"),              
               .target(name: "FusionBluetooth_Apple", condition: .when(platforms: [.iOS, .macOS])),
               .target(name: "FusionBluetooth_Android", condition: .when(platforms: [.android])),
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-F", SCADE_SDK], .when(platforms: [.macOS, .iOS])),
-                .unsafeFlags(["-I", "\(SCADE_SDK)/include"], .when(platforms: [.android])),
             ]
         ),
         .target(

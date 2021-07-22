@@ -1,5 +1,4 @@
 import Foundation
-import ScadeKit
  
 public enum PeripheralState : String {
     case disconnected = "Disconnected"
@@ -8,7 +7,7 @@ public enum PeripheralState : String {
     case disconnecting = "Disconnecting"
 }
 
-public class Peripheral: EObject {
+public struct Peripheral: Equatable {
     public let name: String?
     public let uuid: String
     public var state: PeripheralState
