@@ -4,7 +4,7 @@ import CoreBluetooth
 
 public class BluetoothManager {
     fileprivate class CBCDelegate: NSObject {
-        typealias Receiver = (Peripheral?) -> Void
+        typealias Receiver = (Peripheral) -> Void
         var receiver: Receiver?
     }
   
@@ -21,7 +21,7 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
+	func discoverDevice(receiver: @escaping (Peripheral) -> Void) {
 		self.delegate.receiver = receiver
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
