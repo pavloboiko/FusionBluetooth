@@ -52,6 +52,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	}
 	
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
+		self.delegate.peripheralArray.removeAll()
 		self.delegate.receiver = receiver
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
