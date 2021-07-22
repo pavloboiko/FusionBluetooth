@@ -6,7 +6,7 @@ public class BluetoothManager {
     fileprivate class CBCDelegate: NSObject {
         typealias Receiver = (Peripheral) -> Void
         var receiver: Receiver?
-        private var peripheralArray: [CBPeripheral] = []
+        var peripheralArray: [CBPeripheral] = []
     }
   
 	private let delegate: CBCDelegate
@@ -28,19 +28,19 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	
 	public func connectDevice(uuid: String, receiver: @escaping (Peripheral) -> Void) {	
 		self.delegate.receiver = receiver
-		if let peripheral = peripheralArray.first(where: { uuid == $0.uuid }) {
+		if let peripheral = self.delegate.peripheralArray.first(where: { uuid == $0.uuid }) {
             centralManager.connect(peripheral, options: nil)
         } else {
-        	receiver(nil)
+        	receiver?(nil)
         }
 	}
 	
 	public func disconnectDevice(uuid: String, receiver: @escaping (Peripheral) -> Void) {
 		self.delegate.receiver = receiver
-		if let peripheral = peripheralArray.first(where: { uuid == $0.uuid }) {
+		if let peripheral = self.delegate.peripheralArray.first(where: { uuid == $0.uuid }) {
             centralManager.cancelPeripheralConnection(peripheral)
         } else {
-        	receiver(nil)
+        	receiver?(nil)
         }
 	}
 	
