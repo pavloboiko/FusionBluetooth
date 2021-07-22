@@ -19,11 +19,14 @@ public class BluetoothManager {
 	public required init() {
 		self.delegate = CBCDelegate()
         self.centralManager = CBCentralManager(delegate: self.delegate, queue: nil)
-        self.isScanning = false
     }	
 }
 
-extension BluetoothManager: BluetoothManagerProtocol {	
+extension BluetoothManager: BluetoothManagerProtocol {
+	public init() {
+		self.isScanning = false
+	}
+	
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
 		self.delegate.stateReceiver = receiver
 		var state: CentralState = .unknown
