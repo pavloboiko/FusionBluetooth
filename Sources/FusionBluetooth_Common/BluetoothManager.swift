@@ -11,6 +11,12 @@ public struct Peripheral: Equatable {
     public let name: String?
     public let uuid: String
     public var state: PeripheralState
+    
+    public init(name: String?, uuid: String, state: PeripheralState) {
+        self.name = name
+        self.uuid = uuid
+        self.state = state
+    }
 }
 
 public protocol BluetoothManagerProtocol {
