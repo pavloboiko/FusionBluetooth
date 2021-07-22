@@ -23,7 +23,7 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	public init() {
+	public convenience init() {
 		self.isScanning = false
 	}
 	
