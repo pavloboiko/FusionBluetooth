@@ -99,11 +99,13 @@ extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-	    receiver?(peripheral)
+	    let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+	    receiver?(peripheralData)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnect peripheral: CBPeripheral) {
-        receiver?(peripheral)
+	    let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+        receiver?(peripheralData)
     }
 }
 
