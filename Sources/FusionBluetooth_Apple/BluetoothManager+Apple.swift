@@ -15,11 +15,6 @@ public class BluetoothManager {
 	private let delegate: CBCDelegate
 	private let centralManager: CBCentralManager
 //	private let peripheral: CBPeripheral!
-	var isScanning: Bool {
-		get {
-			return self.centralManager.isScanning
-		}
-	}
 	
 	public required init() {
 		self.delegate = CBCDelegate()
@@ -27,7 +22,11 @@ public class BluetoothManager {
     }	
 }
 
-extension BluetoothManager: BluetoothManagerProtocol {	
+extension BluetoothManager: BluetoothManagerProtocol {
+	public func isScanning() -> Bool {
+		return self.centralManager.isScanning		
+	}
+	
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
 		self.delegate.stateReceiver = receiver
 		var state: CentralState = .unknown
