@@ -23,7 +23,7 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	var isScanning = false
+	public var isScanning = false
 	
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
 		self.delegate.stateReceiver = receiver
