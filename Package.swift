@@ -27,7 +27,11 @@ let package = Package(
             ] 
         ),
         .target(
-            name: "FusionBluetooth_Common"
+            name: "FusionBluetooth_Common",
+            swiftSettings: [
+                .unsafeFlags(["-F", SCADE_SDK], .when(platforms: [.macOS, .iOS])),
+                .unsafeFlags(["-I", "\(SCADE_SDK)/include"], .when(platforms: [.android])),
+            ]
         ),  
         .target(
             name: "FusionBluetooth_Apple",
