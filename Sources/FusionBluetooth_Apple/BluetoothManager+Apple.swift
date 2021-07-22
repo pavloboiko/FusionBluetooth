@@ -6,7 +6,7 @@ public class BluetoothManager {
     fileprivate class CBCDelegate: NSObject {
         typealias Receiver = (Peripheral) -> Void
         var receiver: Receiver?
-        private let peripheralArray: [CBPeripheral] = []
+        private var peripheralArray: [CBPeripheral] = []
     }
   
 	private let delegate: CBCDelegate
@@ -62,8 +62,12 @@ extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
   
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
                       advertisementData: [String : Any], rssi RSSI: NSNumber) {	                      
-      self.peripheralArray.append(peripheral)
-	  receiver(peripheral)
+
+      let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+      if !self.peripheralArray.contains(peripheral) {
+          self.peripheralArray.append(peripheral)
+          receiver(peripheral)
+      }
   }
 
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
