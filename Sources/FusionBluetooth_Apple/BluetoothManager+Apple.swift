@@ -15,7 +15,11 @@ public class BluetoothManager {
 	private let delegate: CBCDelegate
 	private let centralManager: CBCentralManager
 //	private let peripheral: CBPeripheral!
-	open var isScanning: Bool { get }
+	var isScanning: Bool {
+		get {
+			return self.centralManager.isScanning
+		}
+	}
 	
 	public required init() {
 		self.delegate = CBCDelegate()
