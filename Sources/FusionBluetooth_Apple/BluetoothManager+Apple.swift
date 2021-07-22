@@ -80,7 +80,7 @@ extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
       if !self.peripheralArray.contains(peripheral) {
           self.peripheralArray.append(peripheral)
 
-          receiver(peripheralData)
+          receiver?(peripheralData)
       }
     }
 
