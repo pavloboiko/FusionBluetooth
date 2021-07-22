@@ -21,7 +21,7 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	public func discoverDevice(receiver: @escaping (Peripheral) -> Void) {
+	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
 		self.delegate.receiver = receiver
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
