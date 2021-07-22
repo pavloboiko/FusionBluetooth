@@ -45,9 +45,6 @@ let package = Package(
             ],
             resources: [.copy("Generated/FusionBluetooth_Android.java")]         
         )
-        .testTarget(
-            name: "FusionBluetoothTests",
-            dependencies: ["FusionBluetooth"]),
     ]
 )
 
