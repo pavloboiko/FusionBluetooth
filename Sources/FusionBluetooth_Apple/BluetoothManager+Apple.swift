@@ -22,11 +22,7 @@ public class BluetoothManager {
     }	
 }
 
-extension BluetoothManager: BluetoothManagerProtocol {
-	public convenience init() {
-		self.isScanning = false
-	}
-	
+extension BluetoothManager: BluetoothManagerProtocol {	
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
 		self.delegate.stateReceiver = receiver
 		var state: CentralState = .unknown
