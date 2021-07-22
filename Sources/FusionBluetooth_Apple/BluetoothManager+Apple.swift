@@ -15,7 +15,7 @@ public class BluetoothManager {
 	
 	public required init() {
 		self.delegate = CBCDelegate()
-        self.centralManager = CBCentralManager(delegate: self, queue: nil)
+        self.centralManager = CBCentralManager(delegate: self.delegate, queue: nil)
     }
 	
 }
@@ -26,7 +26,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
 	
-	public  func connectDevice(address: String) {
+	public func connectDevice(address: String) {
 		
 	}
 	
