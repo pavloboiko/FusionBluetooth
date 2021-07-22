@@ -35,9 +35,10 @@ public struct Peripheral: Equatable {
 }
 
 public protocol BluetoothManagerProtocol {
+	func isScanning() -> Bool
 	func checkState(receiver: @escaping (CentralState) -> Void)
 	func discoverDevice(receiver: @escaping (Peripheral?) -> Void)
-	func stopDicovering()
+	func stopDiscovering()
 	func connectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void)
 	func disconnectDevice(uuid: String, receiver: @escaping (Peripheral?) -> Void)
 	func receiveMessage(message: @escaping (String) -> Void)

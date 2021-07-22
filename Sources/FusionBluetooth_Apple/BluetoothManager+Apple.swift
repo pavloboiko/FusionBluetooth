@@ -56,7 +56,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
 	
-	public func stopDicovering() {
+	public func stopDiscovering() {
 		centralManager.stopScan()
 	}
 	
