@@ -76,21 +76,22 @@ extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
   
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
                       
-      var state: PeripheralState = .disconnected
-      switch peripheral.state {
-      case .connected:
-          state = .connected
-      case .connecting:
-          state = .connecting
-      case .disconnected:
-          state = .disconnected
-      case .disconnecting:
-          state = .disconnecting
-      @unknown default:
-          state = .disconnected
-      }
-      
-      let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+//      var state: PeripheralState = .disconnected
+//      switch peripheral.state {
+//      case .connected:
+//          state = .connected
+//      case .connecting:
+//          state = .connecting
+//      case .disconnected:
+//          state = .disconnected
+//      case .disconnecting:
+//          state = .disconnecting
+//      @unknown default:
+//          state = .disconnected
+//      }
+//      let state: PeripheralState = self.convertState(peripheral: peripheral)
+//      let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+	  let peripheralData = self.convertPeripheral(peripheral: peripheral)
       if !self.peripheralArray.contains(peripheral) {
           self.peripheralArray.append(peripheral)
 
@@ -99,13 +100,31 @@ extension BluetoothManager.CBCDelegate: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-	    let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+	    let peripheralData = self.convertPeripheral(peripheral: peripheral)
 	    receiver?(peripheralData)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnect peripheral: CBPeripheral) {
-	    let peripheralData = Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
+	    let peripheralData = self.convertPeripheral(peripheral: peripheral)
         receiver?(peripheralData)
+    }
+    
+    private func convertPeripheral(peripheral: CBPeripheral) -> Peripheral{
+        var state: PeripheralState = .disconnected
+        switch peripheral.state {
+        case .connected:
+            state = .connected
+        case .connecting:
+            state = .connecting
+        case .disconnected:
+            state = .disconnected
+        case .disconnecting:
+            state = .disconnecting
+        @unknown default:
+            state = .disconnected
+        }
+        
+        return Peripheral(name: peripheral.name, uuid: "\(peripheral.identifier)", state: state)
     }
 }
 
