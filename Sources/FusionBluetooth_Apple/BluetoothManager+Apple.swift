@@ -21,20 +21,20 @@ public class BluetoothManager {
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
-	func discoverDevice(receiver: @escaping (Peripheral) -> Void) {
+	public func discoverDevice(receiver: @escaping (Peripheral) -> Void) {
 		self.delegate.receiver = receiver
 		centralManager.scanForPeripherals(withServices: nil, options: nil)
 	}
 	
-	func connectDevice(address: String) {
+	public  func connectDevice(address: String) {
 		
 	}
 	
-	func receiveMessage(message: @escaping (String) -> Void) {
+	public func receiveMessage(message: @escaping (String) -> Void) {
 		
 	}
 	
-    func sendMessage(message: String) {
+    public func sendMessage(message: String) {
     	
     }
 }
