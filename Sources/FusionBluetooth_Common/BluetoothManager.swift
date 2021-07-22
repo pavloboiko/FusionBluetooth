@@ -1,6 +1,6 @@
 import Foundation
 import ScadeKit
-
+ 
 public enum PeripheralState : String {
     case disconnected = "Disconnected"
     case connecting = "Connecting"
