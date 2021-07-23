@@ -9,10 +9,13 @@ import FusionBluetooth_Common
 
 public class BluetoothManager {
 	typealias BluetoothAdapter = AndroidBluetooth.BluetoothAdapter
+	typealias BluetoothDevice = AndroidBluetooth.BluetoothDevice
 
 	private var currentActivity: Activity? { Application.currentActivity }
 	
-	private let bluetoothAdapter: BluetoothAdapter?
+	private let bluetoothAdapter: BluetoothAdapter? = nil
+	
+	private var bluetoothReceiver = BluetoothReceiver()	
 	
 	public required init() {  
 		self.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -21,8 +24,8 @@ public class BluetoothManager {
 
 extension BluetoothManager: BluetoothManagerProtocol {
 
-    public func isScanning() -> Bool{
-    	return true
+    public func isScanning() -> Bool {
+    	return self.bluetoothAdapter.isDiscovering()
     }
     
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
@@ -30,7 +33,9 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	}
 	
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
+		bluetoothAdapter?.startDiscovery()
 		
+        registerReceiver(bluetoothReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
 	}
 	
 	public func stopDiscovering() {
@@ -54,5 +59,18 @@ extension BluetoothManager: BluetoothManagerProtocol {
     }
 }
 
+public class BluetoothReceiver: Object, BroadcastReceiver {
+	static let shared = BluetoothReceiver()
+	var receiver: ((Peripheral?) -> Void)?
 
+	
+	public func onReceive(context: Context?, intent: Intent?) {
+		if intent?.action == BluetoothDevice.ACTION_FOUND {
+			let device: BluetoothDevice? = intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+            let deviceName = device?.name
+            let deviceHardwareAddress = device?.address // MAC address
+		}
+    }
+    
+}
 
