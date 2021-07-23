@@ -2,7 +2,10 @@ import Java
 import Android
 import AndroidOS
 import AndroidApp
+import AndroidContent
 import AndroidBluetooth
+
+import FusionBluetooth_Common
 
 public class BluetoothManager {
 	typealias BluetoothAdapter = AndroidBluetooth.BluetoothAdapter

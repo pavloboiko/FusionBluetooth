@@ -7,7 +7,6 @@ let package = Package(
     name: "FusionBluetooth",
     platforms: [.macOS(.v10_14), .iOS(.v12)],    
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "FusionBluetooth",
             targets: ["FusionBluetooth"]),
