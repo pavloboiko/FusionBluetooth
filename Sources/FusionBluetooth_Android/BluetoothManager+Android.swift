@@ -11,7 +11,12 @@ public class BluetoothManager {
 	typealias BluetoothAdapter = AndroidBluetooth.BluetoothAdapter
 
 	private var currentActivity: Activity? { Application.currentActivity }
- 	
+	
+	private let bluetoothAdapter: BluetoothAdapter
+	
+	public required init() {  
+		self.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+	} 	
 }
 
 extension BluetoothManager: BluetoothManagerProtocol {
