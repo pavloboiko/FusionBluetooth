@@ -71,15 +71,11 @@ public class BluetoothReceiver: Object, BroadcastReceiver {
 	public func onReceive(context: Context?, intent: Intent?) {
 		guard let action = intent?.getAction() else { return }
 		if action == BluetoothDevice.ACTION_FOUND,
-			let device: BluetoothDevice? = intent?.getParcelableExtra(name: BluetoothDevice.EXTRA_DEVICE) {
-		
-            let deviceName = device.getName()
-            let deviceHardwareAddress = device.getAddress()
-            
+			let device: BluetoothDevice? = intent?.getParcelableExtra(name: BluetoothDevice.EXTRA_DEVICE),
+			let deviceHardwareAddress = device?.getAddress() {
+				
+            let deviceName = device?.getName()            
             var state: PeripheralState = .disconnected
-            if device.isConnected() {
-            	state = .connected
-            }
             
             let peripheral = Peripheral(name: deviceName, uuid: deviceHardwareAddress, state: state)
             receiver?(peripheral)
