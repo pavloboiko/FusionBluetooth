@@ -37,9 +37,9 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	}
 	
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
-		 if let bluetoothApdater = self.bluetoothAdapter, let activity = self.currentActivity {
-		 	bluetoothAdapter.startDiscovery()
-		 	activity.registerReceiver(bluetoothReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
+		 if let apdater = self.bluetoothAdapter, let activity = self.currentActivity {
+		 	apdater.startDiscovery()
+		 	activity.registerReceiver(receiver:bluetoothReceiver, filter: IntentFilter(BluetoothDevice.ACTION_FOUND))
     	}
 	}
 	
@@ -67,13 +67,21 @@ extension BluetoothManager: BluetoothManagerProtocol {
 public class BluetoothReceiver: Object, BroadcastReceiver {
 	static let shared = BluetoothReceiver()
 	var receiver: ((Peripheral?) -> Void)?
-
 	
 	public func onReceive(context: Context?, intent: Intent?) {
-		if let intent = intent, let action = intent.getAction(), action == BluetoothDevice.ACTION_FOUND {
-			let device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-            let deviceName = device?.getName()
-            let deviceHardwareAddress = device?.getAddress()
+		guard let action = intent?.getAction() else { return }
+		if action == BluetoothDevice.ACTION_FOUND {
+			guard let device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as? BluetoothDevice else { return }
+            let deviceName = device.getName()
+            let deviceHardwareAddress = device.getAddress()
+            
+            var state: PeripheralState = .disconnected
+            if device.isConnected() {
+            	state = .connected
+            }
+            
+            let peripheral = Peripheral(name: deviceName, uuid: deviceHardwareAddress, state: state)
+            receiver?(peripheral)
 		}
     }
     
