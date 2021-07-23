@@ -70,8 +70,9 @@ public class BluetoothReceiver: Object, BroadcastReceiver {
 	
 	public func onReceive(context: Context?, intent: Intent?) {
 		guard let action = intent?.getAction() else { return }
-		if action == BluetoothDevice.ACTION_FOUND {
-			guard let device = intent?.getParcelableExtra(name: BluetoothDevice.EXTRA_DEVICE) as? BluetoothDevice else { return }
+		if action == BluetoothDevice.ACTION_FOUND,
+			let device: BluetoothDevice? = intent?.getParcelableExtra(name: BluetoothDevice.EXTRA_DEVICE) {
+		
             let deviceName = device.getName()
             let deviceHardwareAddress = device.getAddress()
             
