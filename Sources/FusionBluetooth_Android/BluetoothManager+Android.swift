@@ -25,7 +25,11 @@ public class BluetoothManager {
 extension BluetoothManager: BluetoothManagerProtocol {
 
     public func isScanning() -> Bool {
-    	return self.bluetoothAdapter?.isDiscovering()
+    	if let bluetoothApdater = self.bluetoothAdapter {
+    		return bluetoothApdater.isDiscovering()
+    	} else {
+    		return false
+    	}
     }
     
 	public func checkState(receiver: @escaping (CentralState) -> Void) {
@@ -33,9 +37,10 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	}
 	
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
-		bluetoothAdapter?.startDiscovery()
-		
-        registerReceiver(bluetoothReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
+		 if let bluetoothApdater = self.bluetoothAdapter, let activity = self.currentActivity {
+		 	bluetoothAdapter.startDiscovery()
+		 	activity.registerReceiver(bluetoothReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
+    	}
 	}
 	
 	public func stopDiscovering() {
@@ -65,10 +70,10 @@ public class BluetoothReceiver: Object, BroadcastReceiver {
 
 	
 	public func onReceive(context: Context?, intent: Intent?) {
-		if intent?.action == BluetoothDevice.ACTION_FOUND {
-			let device: BluetoothDevice? = intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-            let deviceName = device?.name
-            let deviceHardwareAddress = device?.address // MAC address
+		if let intent = intent, let action = intent.getAction(), action == BluetoothDevice.ACTION_FOUND {
+			let device: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+            let deviceName = device?.getName()
+            let deviceHardwareAddress = device?.getAddress()
 		}
     }
     
