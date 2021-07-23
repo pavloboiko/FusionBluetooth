@@ -39,7 +39,7 @@ extension BluetoothManager: BluetoothManagerProtocol {
 	public func discoverDevice(receiver: @escaping (Peripheral?) -> Void) {
 		 if let apdater = self.bluetoothAdapter, let activity = self.currentActivity {
 		 	apdater.startDiscovery()
-		 	activity.registerReceiver(receiver:bluetoothReceiver, filter: IntentFilter(BluetoothDevice.ACTION_FOUND))
+		 	activity.registerReceiver(receiver:bluetoothReceiver, filter: IntentFilter(action: BluetoothDevice.ACTION_FOUND))
     	}
 	}
 	
@@ -71,7 +71,7 @@ public class BluetoothReceiver: Object, BroadcastReceiver {
 	public func onReceive(context: Context?, intent: Intent?) {
 		guard let action = intent?.getAction() else { return }
 		if action == BluetoothDevice.ACTION_FOUND {
-			guard let device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as? BluetoothDevice else { return }
+			guard let device = intent?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as? BluetoothDevice else { return }
             let deviceName = device.getName()
             let deviceHardwareAddress = device.getAddress()
             
