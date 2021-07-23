@@ -12,7 +12,7 @@ public class BluetoothManager {
 
 	private var currentActivity: Activity? { Application.currentActivity }
 	
-	private let bluetoothAdapter: BluetoothAdapter
+	private let bluetoothAdapter: BluetoothAdapter?
 	
 	public required init() {  
 		self.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
