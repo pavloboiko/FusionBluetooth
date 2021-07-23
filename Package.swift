@@ -39,6 +39,7 @@ let package = Package(
             dependencies: [
               .target(name: "FusionBluetooth_Common"),
               .product(name: "Android", package: "Android", condition: .when(platforms: [.android])),
+              .product(name: "AndroidApp", package: "Android", condition: .when(platforms: [.android])),
               .product(name: "AndroidOS", package: "Android", condition: .when(platforms: [.android])),
               .product(name: "AndroidBluetooth", package: "Android", condition: .when(platforms: [.android]))              
             ],
