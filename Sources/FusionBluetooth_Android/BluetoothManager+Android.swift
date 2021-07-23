@@ -13,7 +13,7 @@ public class BluetoothManager {
 
 	private var currentActivity: Activity? { Application.currentActivity }
 	
-	private let bluetoothAdapter: BluetoothAdapter? = nil
+	private var bluetoothAdapter: BluetoothAdapter? = nil
 	
 	private var bluetoothReceiver = BluetoothReceiver()	
 	
